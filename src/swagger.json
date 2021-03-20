@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Atlas",
-        "description": "Essa é uma documentação sobre a Atlas API.",
+        "title": "User SOLID",
+        "description": "Essa é uma documentação sobre a User SOLID API.",
         "version": "1.0.0",
         "contact": {
             "email": "dariooljr@gmail.com"
@@ -44,12 +44,28 @@
                                     "type": "object",
                                     "properties": {
                                         "id": {
-                                            "type": "integer",
-                                            "description": "The user ID."
-                                        },
-                                        "username": {
                                             "type": "string",
-                                            "description": "The user name."
+                                            "example": "41883427-aced-4dbd-8ac5-4b834d079ae6"
+                                        },
+                                        "admin": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Dario de Oliveira"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "dariooljr@gmail.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-03-20T22:33:17.462Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-03-20T22:33:17.462Z"
                                         }
                                     }
                                 }
@@ -57,7 +73,20 @@
                         }
                     },
                     "400": {
-                        "description": "Error"
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User already exists"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -86,11 +115,29 @@
                                     "items": {
                                         "type": "object",
                                         "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "41883427-aced-4dbd-8ac5-4b834d079ae6"
+                                            },
+                                            "admin": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
                                             "name": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "example": "Dario de Oliveira"
                                             },
                                             "email": {
-                                                "type": "string"
+                                                "type": "string",
+                                                "example": "dariooljr@gmail.com"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "2021-03-20T22:33:17.462Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "example": "2021-03-20T22:33:17.462Z"
                                             }
                                         }
                                     }
@@ -99,7 +146,20 @@
                         }
                     },
                     "400": {
-                        "description": "Error"
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User does not exist"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -120,56 +180,111 @@
                       },
                       "description": "The user ID"
                     }
-                  ]
-                }, 
-                "responses": {
-                    "201": {
-                        "description": "Created"
-                    },
-                    "400": {
-                        "description": "Error"
-                    }
+                  ],
+                  "responses": {
+                      "200": {
+                          "description": "Success",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "id": {
+                                              "type": "string",
+                                              "example": "41883427-aced-4dbd-8ac5-4b834d079ae6"
+                                          },
+                                          "admin": {
+                                              "type": "boolean",
+                                              "example": true
+                                          },
+                                          "name": {
+                                              "type": "string",
+                                              "example": "Dario de Oliveira"
+                                          },
+                                          "email": {
+                                              "type": "string",
+                                              "example": "dariooljr@gmail.com"
+                                          },
+                                          "created_at": {
+                                              "type": "string",
+                                              "example": "2021-03-20T22:33:17.462Z"
+                                          },
+                                          "updated_at": {
+                                              "type": "string",
+                                              "example": "2021-03-20T22:33:17.462Z"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Error",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "error": {
+                                              "type": "string",
+                                              "example": "User does not exist"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
                 }
-            
         },
         "/users/{user_id}": {
             "get": {
                 "tags": ["Users"],
-                "summary": "List all users",
-                "description": "List all users",
-                "headers": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "user_id": {
-                                        "type": "string"
-                                    }
-                                },
-                                "example": {
-                                    "user_id": "78228df0-4e79-4f02-a7e8-13e49b6e6cf2"
-                                }
-                            }
-                        }
+                "summary": "List a user",
+                "description": "List a user",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "user_id",
+                      "required": true,
+                      "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "description": "The user ID"
                     }
-                }, 
+                  ],
                 "responses": {
                     "200": {
                         "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "email": {
-                                                "type": "string"
-                                            }
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "41883427-aced-4dbd-8ac5-4b834d079ae6"
+                                        },
+                                        "admin": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Dario de Oliveira"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "dariooljr@gmail.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-03-20T22:33:17.462Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-03-20T22:33:17.462Z"
                                         }
                                     }
                                 }
@@ -177,7 +292,20 @@
                         }
                     },
                     "400": {
-                        "description": "Error"
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "User does not exist"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
